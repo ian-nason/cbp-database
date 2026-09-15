@@ -19,12 +19,12 @@ Rows: 7,907,911
 | credible_fear_indicator | VARCHAR | 94.4% | N |  |
 | marital_status | VARCHAR | 26.3% | D |  |
 | entry_date | TIMESTAMP | 0.8% | 1800-04-13 00:00:00 |  |
-| status_at_entry | VARCHAR | 5.8% | 324 |  |
+| status_at_entry | VARCHAR | 0.0% | 324 |  |
 | lpr | VARCHAR | 100.0% | LPR |  |
-| event_datetime | TIMESTAMP | 4.4% | 2007-10-01 00:00:00 |  |
+| event_datetime | TIMESTAMP | 0.0% | 2007-10-01 00:00:00 |  |
 | sector | VARCHAR | 0.2% | BBT | Border Patrol sector (apprehensions/encounters) |
 | disposition | VARCHAR | 0.0% | ADMDPT |  |
-| statute_charge | VARCHAR | 23.5% | 10 USC 164C |  |
+| statute_charge | VARCHAR | 19.3% | 10 USC 164C |  |
 | arrest_method | VARCHAR | 0.0% | 287(g) Program |  |
 | source_file | VARCHAR | 0.0% | 2007-10-01_2008-09-30_185.xlsx | FOIA release file the row came from; joins to _files.source_file |
 | source_sheet | VARCHAR | 0.0% | APPs |  |
@@ -41,28 +41,24 @@ Rows: 7,907,911
 | final_bookout_datetime | TIMESTAMP | 36.4% | 1900-01-01 00:00:00 |  |
 | removal_type | VARCHAR | 51.2% | BKT |  |
 | num_children_and_nationality | VARCHAR | 99.4% | 0 |  |
-| civ_id | VARCHAR | 94.5% | (b)(6)(b)(7)( C) |  |
-| of_subjects_per_event | VARCHAR | 94.5% | 1 |  |
+| subject_key | VARCHAR | 93.8% | (b)(6)(b)(7)( C) | CBP anonymized person key where released (2021+ files only); not stable across releases |
+| num_people_per_event | INTEGER | 93.8% | 1 |  |
 | event_number | VARCHAR | 93.8% | (b)(6)(b)(7)( C)(b)(7)( E) | CBP event identifier where released |
 | city_of_birth | VARCHAR | 97.7% | (HONDURAS) |  |
 | birth_state | VARCHAR | 94.4% | AGUASCALIENTES |  |
-| highest_statute_charge | VARCHAR | 95.8% | 18 USC 1001 |  |
 | language | VARCHAR | 99.3% | #MULTIVALUE |  |
 | num_previous_encounters | INTEGER | 94.8% | 0 |  |
 | most_recent_prior_encounter_datetime | TIMESTAMP | 98.9% | 1998-05-01 20:00:00 |  |
-| arrest_date | VARCHAR | 95.6% | 2024-04-01 00:00:00 |  |
 | credible_fear_ind | VARCHAR | 98.3% | N |  |
-| family_unit_group | VARCHAR | 98.8% | (b)(6)(b)(7)( C) |  |
+| fmu_number | VARCHAR | 98.7% | (b)(6)(b)(7)( C) |  |
 | first_country_of_residence | VARCHAR | 96.5% | . |  |
 | gang_indicator | VARCHAR | 100.0% | (b)(7)( E) |  |
 | cds_program_code | VARCHAR | 97.8% | - |  |
 | ces_criminal_indicator | VARCHAR | 95.7% | N |  |
 | demographic | VARCHAR | 94.5% | FMUA |  |
-| entry_status | VARCHAR | 94.2% | 324 |  |
 | ethnicity | VARCHAR | 100.0% | H |  |
 | juvenile | VARCHAR | 95.3% | N |  |
 | transfer_to_ero | VARCHAR | 97.6% | BKT |  |
-| civ_id_unique_identifier | VARCHAR | 100.0% |  |  |
 | arrest_time | VARCHAR | 99.6% | 00:00:00 |  |
 | charge_code_statue_charge | VARCHAR | 99.8% | 8 USC 1325 |  |
 | ncic_charge_code_owned_by_doj_not_cbp | VARCHAR | 100.0% |  |  |
@@ -70,8 +66,6 @@ Rows: 7,907,911
 | landmark_name_for_latest_apprehension_withheld_in_full | VARCHAR | 100.0% |  |  |
 | unique_case_id | VARCHAR | 100.0% |  |  |
 | unique_person_identifier | VARCHAR | 100.0% |  |  |
-| subject_key | VARCHAR | 99.3% | (b)(6)(b)(7)( C) | CBP anonymized person key where released (2021+ files only); not stable across releases |
-| fmu_number | VARCHAR | 100.0% | (b)(6)(b)(7)( C) |  |
 | sector_district | VARCHAR | 99.8% | BBT |  |
 | general_processing_code | VARCHAR | 99.7% | ACA_HOND |  |
 | transferred_to_group | VARCHAR | 99.3% | BKT |  |
@@ -79,7 +73,6 @@ Rows: 7,907,911
 | ncic_charge_code_defer_to_doj | VARCHAR | 100.0% |  |  |
 | ncic_desc_defer_to_doj | VARCHAR | 100.0% |  |  |
 | state_of_birth | VARCHAR | 99.3% | AGUASCALIENTES |  |
-| num_people_per_event | INTEGER | 99.3% | 1 |  |
 | birth_date | TIMESTAMP | 100.0% |  |  |
 | transferred_to_group_1 | VARCHAR | 99.4% | (b)(7)( E) |  |
 | gang_name | VARCHAR | 100.0% | (b)(7)( E) |  |
