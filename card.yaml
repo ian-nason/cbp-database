@@ -1,0 +1,24 @@
+repo: Nason/cbp-database
+file: cbp.duckdb
+pretty_name: CBP Border Enforcement Database (Deportation Data Project FOIA releases)
+title: CBP Border Enforcement Database
+license: cc0-1.0
+tags: [immigration, border, cbp, foia, deportation-data-project, duckdb, datapond]
+size_category: 10M<n<100M
+alias: cbp
+table_columns: [description, row_count, column_count]
+intro: |
+  Individual-level Customs and Border Protection records obtained by the Deportation
+  Data Project through FOIA litigation: Border Patrol apprehensions (FY2008-Dec 2025),
+  apprehensions with place of birth (FY2000-FY2022), encounters, Office of Field
+  Operations inadmissibility events at ports of entry (CY2014-Jan 2026), Title 42
+  expulsions and CBP One appointments. 121 release files harmonised into one schema
+  per record type; overlapping release windows resolved into a non-overlapping base
+  tiling (see `_files`).
+quick_start_sql: |
+  SELECT EXTRACT(YEAR FROM event_datetime) AS year, citizenship, COUNT(*) AS apprehensions
+  FROM cbp.apprehensions WHERE event_datetime >= '2023-01-01'
+  GROUP BY 1, 2 ORDER BY 3 DESC LIMIT 20;
+footer: |
+  Build pipeline, header crosswalk, tiling decisions and caveats: https://github.com/ian-nason/cbp-database
+  Source: https://deportationdata.org/data/cbp.html (CC0).
