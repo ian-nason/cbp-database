@@ -11,11 +11,11 @@ enforcement) and [eoir-database](https://github.com/ian-nason/eoir-database) (im
 | `apprehensions` | person apprehended by Border Patrol | Oct 2007 - Dec 2025 (gaps: Apr-Sep 2014, Oct 2022 - Mar 2024, Jul-Nov 2024, Aug 2025) | 30 |
 | `apprehensions_origin` | apprehension, with place of birth | FY2000 - FY2022 | 23 |
 | `encounters` | Border Patrol encounter (prior-encounter history, seizures) | FY2010 - FY2018, Oct 2022 - Sep 2024 | 17 |
-| `inadmissibles` | person deemed inadmissible at a port of entry (OFO) | CY2014 - Jan 2026 | 14 of 42 (see tiling) |
+| `inadmissibles` | person deemed inadmissible at a port of entry (OFO) | CY2014 - Jan 2026 | 19 of 42 (see tiling) |
 | `title42_expulsions` | Title 42 expulsion | Mar 2020 - May 2022 | 3 |
 | `cbp_one` | CBP One appointment (individual-level extract) | Jan 12 - Oct 31 2023 | 1 |
 | `cbp_one_monthly` | port x month aggregate | May 2021 - Feb 2024, five overlapping extracts | 5 |
-| `inadmissibles_superseded` | same schema as `inadmissibles` | rows from the 28 overlapping release files | 28 |
+| `inadmissibles_superseded` | same schema as `inadmissibles` | rows from the 23 overlapping release files | 23 |
 | `_files` | source file | window, DDP row count, URL, whether in the base tiling and why not | 121 |
 
 Row counts, columns and null rates: `DICTIONARY.md`.
@@ -48,10 +48,11 @@ per quarter) and in coverage window. The build:
 4. **tiles** each table from a non-overlapping set of files. Most record types tile
    naturally (annual/quarterly files). Inadmissibles do not: CBP released annual
    calendar-year files for 2014-2024 plus a dozen partial extracts whose windows overlap
-   them. The base `inadmissibles` table uses the annual files, then `2025-01..05`,
-   `2025-06..09-06` and `2025-09..2026-01` (trimmed to start 2025-09-07). Every other
-   inadmissibles file is loaded unchanged into `inadmissibles_superseded`, and `_files`
-   records the reason.
+   them. The base `inadmissibles` table uses the annual and quarterly files that tile
+   2014-2024, then `2025-01..05`, `2025-06..09-06` and `2025-09..2026-01` (trimmed to start
+   2025-09-07): 19 files. The other 23 inadmissibles files are loaded unchanged into
+   `inadmissibles_superseded`, and `_files` records the reason (`in_base_table`,
+   `superseded_reason`). `_files` is the authoritative list; the counts here are copied from it.
 
 Dates: DuckDB timestamps (Excel serials and `MM/DD/YYYY` text both parsed). Redaction
 markers such as `(b)(6)` are stored as NULL.
@@ -74,9 +75,8 @@ markers such as `(b)(6)` are stored as NULL.
 
 ```bash
 uv sync
-python3 - <<'EOF'   # refresh releases.json from the DDP page when new files appear
-EOF
-./scripts_download.sh            # 121 files, 4.6 GB, from box.com links in releases.json
+uv run python refresh_releases.py   # re-read the DDP page: adds new files to releases.json / download_list.tsv, reports removed ones (--check to only report)
+./scripts_download.sh               # 121 files, 4.6 GB, from box.com links in download_list.tsv; exits 1 if any download failed
 uv run python build_database.py  # ~45 minutes, DuckDB capped at 4 GB, pandas one sheet at a time
 uv run python publish_to_hf.py --token hf_xxx --verify
 ```
